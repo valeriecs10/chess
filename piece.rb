@@ -7,7 +7,7 @@ module Slideable
         # #move_dirs returns an array, el 0 reps horiz/vert and el 1 reps diagonal
         dirs = move_dirs
 
-        if dirs[0] 
+        if dirs[0]
             all_moves += horiz_moves 
             all_moves += vert_moves
         end
@@ -41,10 +41,10 @@ module Slideable
         # start pos at top position
         top_pos = [@current_pos[0] - @current_pos[0], @current_pos[1] - @current_pos[0]]
         new_pos = top_pos
-        i = 1
+        i = 0
         until new_pos.any? { |coord| coord == 7 }
-            possible_moves << new_pos unless new_pos == @current_pos
             new_pos = top_pos.map { |coord| coord += i }
+            possible_moves << new_pos unless new_pos == @current_pos
             i += 1
         end
         possible_moves
@@ -52,28 +52,33 @@ module Slideable
 
     def up_diagonal_moves
         possible_moves = []
-        bottom_pos = []
+        position = []
+        # debugger
         # start at bottom position
         if @current_pos[0] + @current_pos[1] >= 7
-            bottom_pos[0] = 7
-            bottom_pos[1] = (@current_pos[0] + @current_pos[1]) - 7
+            position[0] = 7
+            position[1] = (@current_pos[0] + @current_pos[1]) - 7
         else
-            bottom_pos[0] = @current_pos[0] + @current_pos[1]
-            bottom_pos[1] = 0
+            position[0] = @current_pos[0] + @current_pos[1]
+            position[1] = 0
         end
-        new_pos = bottom_pos
-        until new_pos[0] == 0 || new_pos[1] == 7
-            debugger
+
+        count = 0
+        until position[0] - count < 0 || position[1] + count > 7
+            new_pos = up_diagonal_adjust(position, count)
             possible_moves << new_pos unless new_pos == @current_pos
-            new_pos[0] -= 1
-            new_pos[1] += 1
+            count += 1
         end
         possible_moves
+    end
+
+    def up_diagonal_adjust(pos, count)
+        return [pos[0] - count, pos[1] + count]
     end
 end
 
 class Piece
-    include Slideable # REMOVE AFTER TESTING
+    attr_reader :current_pos # board needs to update piece's new pos in move_piece method... safer way to do this?
 
     def initialize(color, pos, board)
         @color = color
@@ -82,7 +87,8 @@ class Piece
     end
 
     def move_dirs
-        [1,1]
+        # [horizontal/vertical, diagonal]
+        [false, false]
     end
 end
 
