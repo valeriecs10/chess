@@ -13,10 +13,10 @@ class Board
         board = Array.new(8) { Array.new(8) }
         board[0] = row_of_pieces(board[0], 0)
         board[1] = row_of_pieces(board[1], 1)
-        board[2] = row_of_null_pieces(board[2], 2)
-        board[3] = row_of_null_pieces(board[3], 3)
-        board[4] = row_of_null_pieces(board[4], 4)
-        board[5] = row_of_null_pieces(board[5], 5)
+        board[2] = row_of_null_pieces(board[2])
+        board[3] = row_of_null_pieces(board[3])
+        board[4] = row_of_null_pieces(board[4])
+        board[5] = row_of_null_pieces(board[5])
         board[6] = row_of_pieces(board[6], 6)
         board[7] = row_of_pieces(board[7], 7)
         board
@@ -36,19 +36,25 @@ class Board
         row.each_with_index.map { |space, col| Piece.new(nil, [i, col], self) }
     end
 
-    def row_of_null_pieces(row, i)
-        row.each_with_index.map { |space, col| NullPiece.new([i, col], self) }
+    def row_of_null_pieces(row)
+        row.each_with_index.map { |space| NullPiece.new }
     end
 
-    def move_piece(color = nil, start_pos, end_pos)
+    def move_piece(start_pos, end_pos, color = nil)
         raise "No piece at start position" if self[start_pos].is_a?(NullPiece)
         raise "Not a valid move" if !valid_pos?(start_pos) || !valid_pos?(end_pos)
         self[end_pos] = self[start_pos] 
+
+        # assign new position to piece that was moved
+        self[end_pos].current_pos = end_pos
+
         self[start_pos] = NullPiece.new
     end
 
-    def valid_pos?(start_pos, end_pos)
+    def valid_pos?(pos)
         return false if pos.any? { |i| !i.between?(0, 7) }
         true
     end
 end
+
+board = Board.new

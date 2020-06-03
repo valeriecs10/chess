@@ -78,7 +78,7 @@ module Slideable
 end
 
 class Piece
-    attr_reader :current_pos # board needs to update piece's new pos in move_piece method... safer way to do this?
+    attr_accessor :current_pos # board needs to update piece's new pos in move_piece method... safer way to do this?
 
     def initialize(color, pos, board)
         @color = color
