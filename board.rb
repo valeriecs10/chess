@@ -1,5 +1,4 @@
-require_relative 'piece'
-require_relative 'null_piece'
+require_relative 'pieces'
 require 'byebug'
 
 class Board
@@ -11,14 +10,14 @@ class Board
     
     def new_board
         board = Array.new(8) { Array.new(8) }
-        board[0] = row_of_pieces(board[0], 0, :white)
-        board[1] = row_of_pieces(board[1], 1, :white)
+        board[0] = row_of_mixed_pieces(board[0], 0, :white)
+        board[1] = row_of_pawns(board[1], 1, :white)
         board[2] = row_of_null_pieces(board[2])
         board[3] = row_of_null_pieces(board[3])
         board[4] = row_of_null_pieces(board[4])
         board[5] = row_of_null_pieces(board[5])
-        board[6] = row_of_pieces(board[6], 6, :black)
-        board[7] = row_of_pieces(board[7], 7, :black)
+        board[6] = row_of_pawns(board[6], 6, :black)
+        board[7] = row_of_mixed_pieces(board[7], 7, :black)
         board
     end
 
@@ -31,9 +30,22 @@ class Board
         x, y = pos
         @grid[x][y] = piece
     end
+
+    def row_of_mixed_pieces(row, row_i, color)
+        [
+            Rook.new(color, [row_i, 0], self),
+            Knight.new(color, [row_i, 1], self),
+            Bishop.new(color, [row_i, 2], self),
+            Queen.new(color, [row_i, 3], self),
+            King.new(color, [row_i, 4], self),
+            Bishop.new(color, [row_i, 5], self),
+            Knight.new(color, [row_i, 6], self),
+            Rook.new(color, [row_i, 7], self)
+        ]
+    end
     
-    def row_of_pieces(row, i, color)
-        row.each_with_index.map { |space, col| Piece.new(color, [i, col], self) }
+    def row_of_pawns(row, row_i, color)
+        row.each_with_index.map { |space, col| Pawn.new(color, [row_i, col], self) }
     end
 
     def row_of_null_pieces(row)
