@@ -24,19 +24,26 @@ module Slideable
     def moves
         all_moves = []
         
-        move_dirs.each do |x, y|
-            all_moves += grow_unblocked_moves_in_dir(x, y)
+        move_dirs.each do |dx, dy|
+            all_moves += grow_unblocked_moves_in_dir(dx, dy)
         end
 
         all_moves
     end
 
-    def grow_unblocked_moves_in_dir(x, y)
+    private
+
+    def move_dirs
+        # Overwritten by subclass
+        raise "Move_dirs not instantiated"
+    end
+
+    def grow_unblocked_moves_in_dir(dx, dy)
         dir_moves = []
         current_pos = [@pos[0], @pos[1]]
 
         loop do
-            current_pos = [current_pos[0] + x, current_pos[1] + y]
+            current_pos = [current_pos[0] + dx, current_pos[1] + dy]
 
             break unless @board.valid_pos?(current_pos)
 

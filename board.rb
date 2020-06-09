@@ -2,10 +2,10 @@ require_relative 'pieces'
 require 'byebug'
 
 class Board
-    attr_reader :grid #REMOVE AFTER TESTING
+    attr_reader :rows #REMOVE AFTER TESTING
 
     def initialize
-        @grid = new_board
+        @rows = new_board
     end
     
     def new_board
@@ -21,16 +21,6 @@ class Board
         board
     end
 
-    def [](pos)
-        x, y = pos
-        @grid[x][y]
-    end
-
-    def []=(pos, piece)
-        x, y = pos
-        @grid[x][y] = piece
-    end
-
     def row_of_mixed_pieces(row, row_i, color)
         [
             Rook.new(color, [row_i, 0], self),
@@ -43,7 +33,7 @@ class Board
             Rook.new(color, [row_i, 7], self)
         ]
     end
-    
+
     def row_of_pawns(row, row_i, color)
         row.each_with_index.map { |space, col| Pawn.new(color, [row_i, col], self) }
     end
@@ -52,22 +42,60 @@ class Board
         row.each_with_index.map { |space| NullPiece.instance }
     end
 
+    def [](pos)
+        x, y = pos
+        @rows[x][y]
+    end
+
+    def []=(pos, val)
+        x, y = pos
+        @rows[x][y] = val
+    end
+
     def move_piece(start_pos, end_pos, color = nil)
-        piece = board[start_pos]
+        piece = self[start_pos]
         raise "No piece at start position" if self[start_pos].is_a?(NullPiece)
-        raise "Not a valid move" if !valid_pos?(start_pos) || !piece.possible_move?(end_pos)
+        raise "Not a valid move" if !valid_pos?(start_pos) || !piece.moves.include?(end_pos)
         self[end_pos] = self[start_pos] 
 
         # assign new position to piece that was moved
         self[end_pos].current_pos = end_pos
 
-        self[start_pos] = NullPiece.new
+        self[start_pos] = NullPiece.instance
     end
 
     def valid_pos?(pos)
         return false if pos.any? { |i| !i.between?(0, 7) }
         true
     end
-end
 
-board = Board.new
+    def add_piece(piece, pos)
+        raise "Not a valid pos" unless valid_pos?(pos)
+        self[pos] = piece.new
+    end
+
+    def checkmate?(color)
+
+    end
+
+    def in_check?(color)
+
+    end
+
+    def find_king(color)
+
+    end
+
+    def pieces
+
+    end
+
+    def dup
+
+    end
+
+    def move_piece!(color, start_pos, end_pos)
+
+    end
+
+end

@@ -3,15 +3,37 @@ class Piece
     attr_accessor :current_pos # board needs to update piece's new pos in move_piece method... safer way to do this?
     attr_reader :color
 
-    def initialize(color, pos, board)
+    def initialize(color, board, pos)
         @color = color
-        @pos = pos
         @board = board
+        @pos = pos
     end
 
-    # FOR TESTING ONLY, REMOVE FROM FINAL
-    # def move_dirs   
-    #     horizontal_vertical_dirs + diagonal_dirs
-    # end
+    def to_s
+
+    end
+
+    def empty?
+
+    end
+
+    def valid_moves
+
+    end
+
+    def pos=(val)
+        @pos = val
+    end
+
+    def symbol
+
+    end
+
+    private
+
+    def move_into_check?(end_pos)
+
+    end
+    
 end
 
