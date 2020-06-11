@@ -23,29 +23,31 @@ class Pawn < Piece
 
     def forward_steps
         px, py = @pos
-        steps = [[(1 * forward_dir) + px, py]]
-        steps << [(2 * forward_dir) + px, py] if at_start_row?
-
-        steps.each do |step|
-            current = [px + step[0], py + step[1]]
-            steps.delete(step) unless @board[current].empty?
+        moves = []
+        # debugger
+        current = [px + forward_dir, py]
+        
+        if @board[current].empty?
+            moves << [current[0], current[1]]
+            if at_start_row?
+                current[0] += forward_dir
+                moves << [current[0], current[1]] if @board[current].empty?
+            end
         end
 
-        debugger if steps.any? { |step| step == nil } # DELETE AFTER TESTING
-
-        steps
+        moves
     end
 
-    # Bad logic in side_attacks, reformulate
-
     def side_attacks
-        attacks = [[1 * forward_dir, -1], [1 * forward_dir, 1]]
-        # debugger
-        attacks.map! { |step| [@pos[0] + step[0], @pos[1] + step[1]] }
-            
-        attacks.each { |pos| attacks.delete(pos) unless !@board[pos].empty? && @board[pos].color != self.color }   
+        steps = [[1 * forward_dir, -1], [1 * forward_dir, 1]]
+        moves = []
 
-        attacks
+        steps.each do |step|
+            current = [step[0] + @pos[0], step[1] + @pos[1]]
+            moves << current if !@board[current].empty? && @board[current].color != self.color
+        end
+
+        moves
     end
 
 end

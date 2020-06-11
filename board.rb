@@ -59,7 +59,7 @@ class Board
         self[end_pos] = self[start_pos] 
 
         # assign new position to piece that was moved
-        self[end_pos].current_pos = end_pos
+        self[end_pos].pos = end_pos
 
         self[start_pos] = NullPiece.instance
     end
@@ -69,9 +69,9 @@ class Board
         true
     end
 
-    def add_piece(piece, pos)
+    def add_piece(piece, color, pos)
         raise "Not a valid pos" unless valid_pos?(pos)
-        self[pos] = piece.new
+        self[pos] = piece.new(color, self, pos)
     end
 
     def checkmate?(color)
@@ -99,6 +99,3 @@ class Board
     end
 
 end
-
-board = Board.new()
-p board[[1,0]].moves
