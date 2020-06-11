@@ -23,19 +23,19 @@ class Board
 
     def row_of_mixed_pieces(row, row_i, color)
         [
-            Rook.new(color, [row_i, 0], self),
-            Knight.new(color, [row_i, 1], self),
-            Bishop.new(color, [row_i, 2], self),
-            Queen.new(color, [row_i, 3], self),
-            King.new(color, [row_i, 4], self),
-            Bishop.new(color, [row_i, 5], self),
-            Knight.new(color, [row_i, 6], self),
-            Rook.new(color, [row_i, 7], self)
+            Rook.new(color, self, [row_i, 0]),
+            Knight.new(color, self, [row_i, 1]),
+            Bishop.new(color, self, [row_i, 2]),
+            Queen.new(color, self, [row_i, 3]),
+            King.new(color, self, [row_i, 4]),
+            Bishop.new(color, self, [row_i, 5]),
+            Knight.new(color, self, [row_i, 6]),
+            Rook.new(color, self, [row_i, 7])
         ]
     end
 
     def row_of_pawns(row, row_i, color)
-        row.each_with_index.map { |space, col| Pawn.new(color, [row_i, col], self) }
+        row.each_with_index.map { |space, col| Pawn.new(color, self, [row_i, col]) }
     end
 
     def row_of_null_pieces(row)
@@ -99,3 +99,6 @@ class Board
     end
 
 end
+
+board = Board.new()
+p board[[1,0]].moves
