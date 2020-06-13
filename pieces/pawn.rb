@@ -3,7 +3,7 @@ require 'byebug'
 
 class Pawn < Piece
     def symbol
-
+        @color == :black ? ♟︎ : ♙
     end
 
     def moves

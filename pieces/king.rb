@@ -5,7 +5,7 @@ class King < Piece
     include Stepable
 
     def symbol
-
+        color == :black ? ♚ : ♔
     end
 
     protected
