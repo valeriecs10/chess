@@ -2,7 +2,7 @@ require_relative 'pieces'
 require 'byebug'
 
 class Board
-    attr_reader :rows #REMOVE AFTER TESTING
+    attr_reader :rows
 
     def initialize
         @rows = new_board

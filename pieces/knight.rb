@@ -5,7 +5,7 @@ class Knight < Piece
     include Stepable
 
     def symbol
-        color == :black ? ♞ : ♘
+        color == :black ? " ♞ ".colorize(:black) : " ♞ "
     end
 
     protected

@@ -15,7 +15,7 @@ class NullPiece < Piece
     end
 
     def symbol
-        
+        "   "
     end
 
 end

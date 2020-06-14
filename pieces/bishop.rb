@@ -5,7 +5,7 @@ class Bishop < Piece
     include Slideable
 
     def symbol
-        color == :black ? ♝ : ♗
+        color == :black ? " ♝ ".colorize(:black) : " ♝ "
     end
 
     protected
