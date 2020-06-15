@@ -4,21 +4,16 @@ require 'byebug'
 class Board
     attr_reader :rows
 
-    def initialize
-        @rows = new_board
+    def initialize(fill_board = true)
+        @rows = Array.new(8) { Array.new(8) { NullPiece.instance } }
+        set_pieces if fill_board
     end
     
-    def new_board
-        board = Array.new(8) { Array.new(8) }
-        board[0] = row_of_mixed_pieces(board[0], 0, :white)
-        board[1] = row_of_pawns(board[1], 1, :white)
-        board[2] = row_of_null_pieces(board[2])
-        board[3] = row_of_null_pieces(board[3])
-        board[4] = row_of_null_pieces(board[4])
-        board[5] = row_of_null_pieces(board[5])
-        board[6] = row_of_pawns(board[6], 6, :black)
-        board[7] = row_of_mixed_pieces(board[7], 7, :black)
-        board
+    def set_pieces
+        @rows[0] = row_of_mixed_pieces(@rows[0], 0, :white)
+        @rows[1] = row_of_pawns(@rows[1], 1, :white)
+        @rows[6] = row_of_pawns(@rows[6], 6, :black)
+        @rows[7] = row_of_mixed_pieces(@rows[7], 7, :black)
     end
 
     def row_of_mixed_pieces(row, row_i, color)
@@ -55,7 +50,8 @@ class Board
     def move_piece(start_pos, end_pos, color = nil)
         piece = self[start_pos]
         raise "No piece at start position" if self[start_pos].is_a?(NullPiece)
-        raise "Not a valid move" if !valid_pos?(start_pos) || !piece.moves.include?(end_pos)
+        raise "Not a valid move" if !valid_pos?(start_pos) || 
+                !piece.valid_moves.include?(end_pos)
         self[end_pos] = self[start_pos] 
 
         # assign new position to piece that was moved
@@ -106,11 +102,28 @@ class Board
     end
 
     def dup
-
+        temp = Board.new(false)
+        temp.rows.each_with_index do |row, row_i|
+            row.each_with_index do |space, space_i|
+                original = self[[row_i, space_i]]
+                unless original.is_a?(NullPiece)
+                    temp.add_piece(original.class, original.color, [row_i, space_i])
+                end
+            end
+        end
+        temp
     end
 
     def move_piece!(color, start_pos, end_pos)
+        piece = self[start_pos]
+        raise "No piece at start position" if self[start_pos].is_a?(NullPiece)
+        raise "Not a valid move" if !valid_pos?(start_pos) || !piece.moves.include?(end_pos)
+        self[end_pos] = self[start_pos] 
 
+        # assign new position to piece that was moved
+        self[end_pos].pos = end_pos
+
+        self[start_pos] = NullPiece.instance
     end
 
 
