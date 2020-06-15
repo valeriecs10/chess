@@ -75,19 +75,34 @@ class Board
     end
 
     def checkmate?(color)
-
+        return false if !in_check?(color)
+        pieces.select { |piece| piece.color == color }.all? do |piece|
+           piece.valid_moves.empty?
+        end
     end
 
     def in_check?(color)
-
+        king_pos = find_king(color)
+        opposing_color = color == :black ? :white : :black
+        pieces.each do |piece|
+            return true if piece.moves.include?(king_pos)
+        end
+        false
     end
 
     def find_king(color)
-
+        pieces.each { |piece| return piece.pos if piece.is_a?(King) && 
+                        piece.color == color }
     end
 
     def pieces
-
+        pieces = []
+        @rows.each do |row|
+            row.each do |space|
+                pieces << space unless space.is_a?(NullPiece)
+            end
+        end
+        pieces
     end
 
     def dup

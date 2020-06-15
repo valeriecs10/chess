@@ -44,7 +44,9 @@ class Pawn < Piece
 
         steps.each do |step|
             current = [step[0] + @pos[0], step[1] + @pos[1]]
-            moves << current if !@board[current].empty? && @board[current].color != self.color
+            moves << current if @board.valid_pos?(current) && 
+                                !@board[current].is_a?(NullPiece) && 
+                                @board[current].color != self.color
         end
 
         moves
