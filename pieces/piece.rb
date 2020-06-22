@@ -41,7 +41,7 @@ class Piece
     #NEEDS TESTING
     def move_into_check?(end_pos)
         temp = @board.dup
-        temp.move_piece(@pos, end_pos)
+        temp.move_piece!(@pos, end_pos)
         temp.in_check?(@color)
     end
 

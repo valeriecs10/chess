@@ -83,7 +83,6 @@ class Board
         pieces.each do |piece|
             return true if piece.moves.include?(king_pos)
         end
-        false
     end
 
     def find_king(color)
@@ -114,7 +113,7 @@ class Board
         temp
     end
 
-    def move_piece!(color, start_pos, end_pos)
+    def move_piece!(start_pos, end_pos, color = nil)
         piece = self[start_pos]
         raise "No piece at start position" if self[start_pos].is_a?(NullPiece)
         raise "Not a valid move" if !valid_pos?(start_pos) || !piece.moves.include?(end_pos)
