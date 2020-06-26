@@ -36,13 +36,14 @@ class Piece
         raise 'moves not instantiated'
     end
 
-    private
+    # private
 
     #NEEDS TESTING
     def move_into_check?(end_pos)
         temp = @board.dup
         temp.move_piece!(@pos, end_pos)
-        temp.in_check?(@color)
+        return true if temp.in_check?(@color)
+        false
     end
 
 end

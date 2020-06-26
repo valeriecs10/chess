@@ -54,6 +54,7 @@ class Board
         pieces.each do |piece|
             return true if piece.moves.include?(king_pos)
         end
+        false
     end
         
     def find_king(color)

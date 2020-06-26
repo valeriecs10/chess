@@ -4,7 +4,7 @@ require_relative 'pieces/null_piece'
 require 'byebug'
 
 class Display
-    attr_reader :board, :notifications
+    attr_reader :board, :cursor, :notifications
 
     def initialize(board)
         @board = board
