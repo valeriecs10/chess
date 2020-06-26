@@ -17,7 +17,8 @@ class Display
         }
     end
 
-    def render
+    def render(new_turn = false)
+        reset_cursor if new_turn
         clear_board
         directions
         print_board
@@ -26,6 +27,10 @@ class Display
     end
 
     private
+
+    def reset_cursor
+        cursor.cursor_pos = [0,0]
+    end
 
     def update_notifications
         reset_notifications
@@ -66,8 +71,8 @@ class Display
             row.each_with_index do |space, space_i|
                 if @cursor.cursor_pos == [row_i, space_i]
                     print_cursor(space)
-                # elsif cursor.selected(space)
-                #     print_selected(space)
+                elsif cursor.selected == [row_i, space_i]
+                    print_selected(space)
                 else
                     print_colored_space(space, row_i, space_i)
                 end

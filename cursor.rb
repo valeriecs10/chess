@@ -33,6 +33,8 @@ MOVES = {
 
 class Cursor
 
+  attr_accessor :cursor_pos # DISPLAY NEEDS TO RESET CURSOR POS FOR NEW TURN
+
   attr_reader :cursor_pos, :board, :selected
 
   def initialize(cursor_pos, board)

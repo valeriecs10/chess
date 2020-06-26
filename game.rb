@@ -11,7 +11,6 @@ class Game
     end
 
     def play
-        display.render
         until players.any? { |player| board.checkmate?(player) } do
 
             begin

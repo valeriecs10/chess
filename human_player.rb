@@ -12,6 +12,7 @@ class HumanPlayer
     def make_move(board)
         start_pos = []
         end_pos = []
+        display.render(true)
         
         until end_pos != start_pos do
             start_pos = []
@@ -21,7 +22,6 @@ class HumanPlayer
         end
 
         board.move_piece(start_pos, end_pos)
-        display.render
     end
     
     private
