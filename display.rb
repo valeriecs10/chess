@@ -64,8 +64,10 @@ class Display
     def print_board
         board.rows.each_with_index do |row, row_i|
             row.each_with_index do |space, space_i|
-                if @cursor.cursor_pos == space.pos 
+                if @cursor.cursor_pos == [row_i, space_i]
                     print_cursor(space)
+                # elsif cursor.selected(space)
+                #     print_selected(space)
                 else
                     print_colored_space(space, row_i, space_i)
                 end
@@ -91,7 +93,11 @@ class Display
     end
 
     def print_cursor(space)
-        @cursor.selected ? (print space.to_s.on_red) : (print space.to_s.on_green)
+        print space.to_s.on_green
+    end
+
+    def print_selected(space)
+        print space.to_s.on_red
     end
 
 end

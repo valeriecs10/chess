@@ -21,6 +21,7 @@ class HumanPlayer
         end
 
         board.move_piece(start_pos, end_pos)
+        display.render
     end
     
     private

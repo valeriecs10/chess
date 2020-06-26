@@ -10,10 +10,6 @@ class NullPiece < Piece
         @symbol = nil
     end
 
-    def moves
-
-    end
-
     def symbol
         "   "
     end

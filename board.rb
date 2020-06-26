@@ -20,7 +20,7 @@ class Board
     end
     
     def move_piece(start_pos, end_pos, color = nil)
-        piece = self[start_pos]
+        piece = self[start_pos] # UNNECESSARY?
         validate_input(start_pos, end_pos)
         
         self[end_pos] = self[start_pos] 
