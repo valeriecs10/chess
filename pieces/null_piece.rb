@@ -6,8 +6,8 @@ class NullPiece < Piece
 
     def initialize
         # directions say you need a way to read color and symbol?
-        @color = nil
-        @symbol = nil
+        # @color = nil
+        # @symbol = nil
     end
 
     def symbol

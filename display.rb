@@ -17,8 +17,8 @@ class Display
         }
     end
 
-    def render(new_turn = false)
-        reset_cursor if new_turn
+    def render(color, new_turn = false)
+        reset_cursor(color) if new_turn
         clear_board
         directions
         print_board
@@ -28,8 +28,12 @@ class Display
 
     private
 
-    def reset_cursor
-        cursor.cursor_pos = [0,0]
+    def reset_cursor(color)
+        if color == :white
+            cursor.cursor_pos = [0,0]
+        else
+            cursor.cursor_pos = [7,0]
+        end
     end
 
     def update_notifications

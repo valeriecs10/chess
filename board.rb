@@ -20,8 +20,7 @@ class Board
     end
     
     def move_piece(start_pos, end_pos, color = nil)
-        piece = self[start_pos] # UNNECESSARY?
-        validate_input(start_pos, end_pos)
+        validate_input(start_pos, end_pos, color)
         
         self[end_pos] = self[start_pos] 
             
@@ -99,14 +98,11 @@ class Board
         
     private
 
-    def validate_input(start_pos, end_pos)
-        begin
-            raise "No piece at start position" if self[start_pos].is_a?(NullPiece)
-            raise "Not a valid move" if !valid_pos?(start_pos) || 
-            !piece.valid_moves.include?(end_pos)
-        rescue
-            # report error here and loop again?
-        end
+    def validate_input(start_pos, end_pos, color)
+        raise ArgumentError, "No piece at start position" if self[start_pos].is_a?(NullPiece)
+        raise ArgumentError, "Not a valid move" if !valid_pos?(start_pos) || 
+        !self[start_pos].valid_moves.include?(end_pos)
+        raise ArgumentError, "Can't move opponent's piece" if self[start_pos].color != color
     end
 
     def set_pieces

@@ -2,17 +2,17 @@ require_relative 'display'
 require_relative 'board'
 
 class HumanPlayer
-    attr_reader :board, :display
+    attr_reader :display, :color
 
-    def initialize(board)
-        @board = board
-        @display = Display.new(board)
+    def initialize(color, display)
+        @color = color
+        @display = display
     end
 
     def make_move(board)
         start_pos = []
         end_pos = []
-        display.render(true)
+        display.render(color, true)
         
         until end_pos != start_pos do
             start_pos = []
@@ -21,7 +21,7 @@ class HumanPlayer
             end_pos = select_input
         end
 
-        board.move_piece(start_pos, end_pos)
+        board.move_piece(start_pos, end_pos, color)
     end
     
     private
@@ -31,7 +31,7 @@ class HumanPlayer
     
         while input.nil?
             input = display.cursor.get_input
-            display.render
+            display.render(color)
         end
         
         return input
